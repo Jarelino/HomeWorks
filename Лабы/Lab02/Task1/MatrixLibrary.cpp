@@ -108,7 +108,7 @@ double MatrixLibrary::maxMatrixDifference(double** firstMatrix, double** secondM
 	{
 		for (int j = 0; j < colums; j++)
 		{
-			currentDifference = fabs(secondMatrix[i][j] - firstMatrix[i][j]);
+			currentDifference = *(*(firstMatrix + i) + j) - *(*(secondMatrix + i) + j);
 			if (currentDifference > maxDifference)
 			{
 				maxDifference = currentDifference;

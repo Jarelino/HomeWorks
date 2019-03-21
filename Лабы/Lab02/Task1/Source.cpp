@@ -27,6 +27,10 @@ int main()
 
 	cout << endl << "Max matrix difference: " << maxMatrixDifference(firstMatrix, secondMatrix, matrixSize, matrixSize) << endl;
 
+	int i = 0;
+	int j = 0;
+	cout << ((sin(2 * i * j) + sin(i)) / (pow(i - j - 4, 3) + pow(i + j, 2))) << endl;
+
 
 	system("pause");
 	return 0;
@@ -40,7 +44,7 @@ double formula(int i, int j)
 	}
 	else
 	{
-		return (double)i;
+		return i;
 	}
 }
 
@@ -52,7 +56,7 @@ double formulaTeylor(int i, int j, int accuracy)
 	}
 	else
 	{
-		return (double)i;
+		return i;
 	}
 }
 
