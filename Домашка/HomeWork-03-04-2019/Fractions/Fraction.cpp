@@ -117,4 +117,3 @@ Fraction Fraction::multiply(Fraction& firstFrac, Fraction& secondFrac)
 	fraction.reduce();
 	return fraction;
 }
-
