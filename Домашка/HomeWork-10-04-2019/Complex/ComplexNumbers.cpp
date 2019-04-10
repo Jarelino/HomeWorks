@@ -9,11 +9,11 @@ ComplexNumbers::ComplexNumbers(double im, double rl)
 	setNumber(im, rl);
 }
 
-/*ComplexNumbers::~ComplexNumbers()
+ComplexNumbers::~ComplexNumbers()
 {
 	cout << "STOP KILLING COMPLEX NUMBERS!" << endl;
 }
-*/
+
 void ComplexNumbers::setNumber(double im, double rl)
 {
 	setImaginary(im);

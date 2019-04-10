@@ -9,7 +9,7 @@ class ComplexNumbers
 	friend istream& operator>>(istream &, ComplexNumbers&);
 public :
 	ComplexNumbers(double = 1, double = 1);
-	//~ComplexNumbers();
+	~ComplexNumbers();
 
 	void setNumber(double, double);
 	
