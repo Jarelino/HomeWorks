@@ -15,12 +15,12 @@ const int stringSize = 256;
 
 typedef char*(*codeRule)(char*);
 
-void stringReplace(char* , char* , char* );
-void task(char*, int, codeRule);
-int substringPosition(char*, char*, int);
+char* stringReplace(char* , char* , char* );
+char* task(char*, int, codeRule);
 char* inputString();
-int stringLength(char*);
-char* code(char*);
+char* encrypt(char*);
+char toUpperCase(char);
+char* encryptLetter(char);
 
 int main()
 {
@@ -31,7 +31,7 @@ int main()
 	cout << "Word length count ";
 	cin >> n;
 
-	task(string, n, code);
+	string = task(string, n, encrypt);
 
 	cout << string << endl;
 
@@ -50,168 +50,100 @@ char* inputString()
 	return string;
 }
 
-int stringLength(char* string)
+char toUpperCase(char letter)
 {
-	int i = 0;
-
-	while (string[i] != '\0')
+	if (letter >= 'A' && letter <= 'Z')
 	{
-		i++;
+		return letter;
+	}
+	else
+	{
+		return letter - 32;
+	}
+}
+
+char* encryptLetter(char letter)
+{
+	letter = toUpperCase(letter);
+	int number = 91 - letter;
+	char* result = new char[5];
+	result[0] = '(';
+
+	if (number / 10 > 0)
+	{
+		result[1] = (number / 10) + '0';
+		result[2] = (number	% 10) + '0';
+		result[3] = ')';
+		result[4] = '\0';
+	}
+	else
+	{
+		result[1] = (number % 10) + '0';
+		result[2] = ')';
+		result[3] = '\0';
 	}
 
-	return i;
+	return result;
 }
 
 
-char* code(char* word)
-{
-	char* codedWord = new char[stringSize];
 
-	const char* symbolsUp = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
-	const char* symbolsDown = "zyxwvutsrqponmlkjihgfedcba";
+char* encrypt(char* word)
+{
+	char* result = new char[1];
+	result[0] = '\0';
 
 	int length = 0;
 
-	for (int i = 0; i < stringLength(word); i++)
+	for (int i = 0; i < strlen(word); i++)
 	{
-
-		for (int j = 0; j < strlen(symbolsUp); j++)
-		{
-			if (word[i] == symbolsUp[j] || word[i] == symbolsDown[j])
-			{
-				//ÊÎÑÒÛËÜ
-				codedWord[length] = '(';
-				length++;
-
-				if (j > 9)
-				{
-					codedWord[length] = 48 + (j+1) / 10;
-					length++;
-				}
-
-				codedWord[length] = 48 + (j+1) % 10;
-				length++;
-
-				codedWord[length] = ')';
-				length++;
-			}
-		}
+		length += strlen(encryptLetter(word[i]));
+		strcat(result, encryptLetter(word[i]));
 	}
-	
-	codedWord[length] = '\0';
 
-	return codedWord;
+	result[length + 1] = '\0';
+	return result;
 }
 
-void task(char* string, int count, codeRule codeRule)
+
+char* task(char* string, int count, codeRule codeRule)
 {
 	char* str = new char[stringSize];
 	strcpy(str, string);
-	char* newString = strtok(str, " ,.");
-	while (newString != NULL)
+	
+	char* word = strtok(str, " ,.");
+
+	while (word != NULL)
 	{
-		if (stringLength(newString) == count)
+		if (strlen(word) == count)
 		{
-			stringReplace(string, newString, codeRule(newString));
+			string = stringReplace(string, word, codeRule(word));
 		}
 
-		newString = strtok(NULL, " ,.-");
+		word = strtok(NULL, " ,.-");
 		
 	}
 	
-	delete[] newString;
+	delete[] word;
 	delete[] str;
+
+	return string;
 }
 
 
-void stringReplace(char* str, char* substing, char* replace)
+char* stringReplace(char* source, char* strToReplace, char* replaceString)
 {
-	char* newString = new char[stringSize];
+	int oldLength = strlen(source);
 
-	int newLength = stringLength(replace),
-		oldLength = stringLength(substing),
-		sLength = stringLength(str),
-		start = 0,
-		oldStart = 0,
-		count = 0,
-		difference = newLength - oldLength;
+	int difference = strlen(replaceString) - strlen(strToReplace);
 
-	int index = substringPosition(str, substing, start);
+	char* result = new char[strlen(source) + difference + 1];
 
-	for (int i = 0; i < index; i++)
-	{
-		newString[i] = str[i];
-	}
+	strncpy(result, source, oldLength - strlen(strstr(source, strToReplace)));
+	result[strlen(source) - strlen(strstr(source, strToReplace))] = '\0';
 
-	while (index != -1)
-	{
-		for (int j = index + count * (difference), i = 0; j < index + newLength + count * (difference); j++, i++)
-		{
-			newString[j] = replace[i];
-		}
-		start = index + newLength;
+	strcat(result, replaceString);
+	strcat(result, strstr(source, strToReplace) + strlen(strToReplace));
 
-		int newIndex = substringPosition(str, substing, start);
-
-		while (newIndex != -1)
-		{
-			for (int i = index + newLength + count * (difference), j = index + oldLength; j < newIndex; i++, j++)
-			{
-				newString[i] = str[j];
-			}
-			break;
-		}
-
-		while (newIndex == -1)
-		{
-			for (int i = index + newLength + count * (difference), j = index + oldLength; j < sLength; i++, j++)
-			{
-				newString[i] = str[j];
-			}
-			break;
-		}
-
-		index = substringPosition(str, substing, start);
-		count++;
-	}
-
-	newString[stringLength(str) + difference] = '\0';
-	strcpy(str, newString);
-}
-
-int substringPosition(char* str, char* substring, int start)
-{
-	int n = stringLength(str),
-		m = stringLength(substring);
-
-	if (m > n)
-	{
-		return -1;
-	}
-
-	int count = 0,
-		index = -1;
-
-	for (int i = start; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			if (substring[j] == str[i + count])
-			{
-				index = i;
-				count++;
-				if (j == m - 1)
-				{
-					return index;
-				}
-			}
-			else
-			{
-				index = -1;
-				count = 0;
-				break;
-			}
-		}
-	}
-	return index;
+	return result;
 }
