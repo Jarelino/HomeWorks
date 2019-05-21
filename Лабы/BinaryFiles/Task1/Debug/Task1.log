@@ -1,0 +1,6 @@
+﻿  Source.cpp
+d:\workspace c++\homeworks\лабы\binaryfiles\task1\source.cpp(6): warning C4081: требуется "newline"; обнаружен ";"
+d:\workspace c++\homeworks\лабы\binaryfiles\task1\source.cpp(146): warning C4244: инициализация: преобразование "std::streamoff" в "long", возможна потеря данных
+  Student.cpp
+  Создание кода...
+  Task1.vcxproj -> D:\WorkSpace C++\Homeworks\Лабы\BinaryFiles\Debug\Task1.exe

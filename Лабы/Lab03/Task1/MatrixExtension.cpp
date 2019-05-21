@@ -1,6 +1,7 @@
 #include <iostream>;
 #include "MatrixLibrary.h"
 
+
 using namespace std;
 
 double* MatrixExtension::allocateDoubleMemory(int count)
@@ -242,9 +243,9 @@ double* MatrixExtension::deleteElementsInArray(double* array, int& size, int uni
 
 	int copy = size;
 	int length = 0;
-	for (double *p = array; p < array + size; p++)
+	for (int i = 0; i < size; i++)
 	{
-		if (unit(*p) == units && zero(*p) == zeros)
+		if (unit(array[i]) == units && zero(array[i]) == zeros)
 		{
 			length++;
 		}

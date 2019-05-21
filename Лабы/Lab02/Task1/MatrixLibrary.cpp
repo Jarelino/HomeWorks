@@ -54,7 +54,7 @@ void MatrixLibrary::fillMatrix(double** matrix, int rows, int colums, value form
 	{
 		for (int j = 0; j < colums; j++)
 		{
-			matrix[i][j] = formula(i, j);
+			matrix[i][j] = formula(i + 1, j + 1);
 		}
 	}
 }
@@ -65,7 +65,7 @@ void MatrixLibrary::fillMatrix(double** matrix, int rows, int colums, int accura
 	{
 		for (int j = 0; j < colums; j++)
 		{
-			matrix[i][j] = formula(i, j, accuracy);
+			matrix[i][j] = formula(i + 1, j + 1, accuracy);
 		}
 	}
 }
@@ -77,7 +77,7 @@ void MatrixLibrary::displayDoubleMatrix(double** matrix, int rows, int colums)
 	{
 		for (int j = 0; j < colums; j++)
 		{
-			cout << " " << matrix[i][j];
+			cout << matrix[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -86,15 +86,20 @@ void MatrixLibrary::displayDoubleMatrix(double** matrix, int rows, int colums)
 double MatrixLibrary::taylorSin(double number, int accuracy)
 {
 	const double PI = 3.14159265358979323846;
+
 	number = fmod(number, PI * 2);
+	
 	double sin = 0, term = number;
+	
 	int i = 1;
+
 	while (abs(term) > pow(0.1, accuracy))
 	{
 		sin += term;
 		term *= -1.0*(number * number) / (2 * i) / (2 * i + 1);
 		i++;
 	}
+
 	return sin;
 }
 
@@ -108,7 +113,8 @@ double MatrixLibrary::maxMatrixDifference(double** firstMatrix, double** secondM
 	{
 		for (int j = 0; j < colums; j++)
 		{
-			currentDifference = *(*(firstMatrix + i) + j) - *(*(secondMatrix + i) + j);
+			currentDifference = abs(firstMatrix[i][j] - secondMatrix[i][j]);
+
 			if (currentDifference > maxDifference)
 			{
 				maxDifference = currentDifference;
