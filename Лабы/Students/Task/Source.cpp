@@ -80,6 +80,7 @@ Student* InitStudent(char* fileName, int n)
 		streamIn >> name;
 		streamIn >> lastName;
 		streamIn >> faculty;
+
 		for (int i = 0; i < M; i++)
 		{
 			streamIn >> marks[i];
@@ -108,6 +109,7 @@ void AddToEndFile(char* fileName, Student* man, int n)
 
 		streamOut.write((char*)&man[i], bufSize);
 	}
+
 	streamOut.close();
 }
 
@@ -123,6 +125,7 @@ void DisplayFile(char* fileName)
 	}
 	int bufSize = sizeof(Student);
 	Student* man = new Student;
+
 	while (streamIn.read((char*)man, bufSize))
 	{
 		man->DisplayStudent();

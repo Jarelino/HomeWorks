@@ -62,10 +62,9 @@ void Student::SetStudent(char* firstName, char* lastName, char* faculty, int* ma
 
 void Student::DisplayStudent()
 {
-	cout << endl << this->firstName << " " << this->lastName << ", \t";
-	cout.precision(3);
+	cout << endl << this->firstName << " " << this->lastName << ",   ";
 	cout << this->faculty << ".";
-	cout << "\tMarks: ";
+	cout << "   Marks: ";
 	for (int i = 0; i < M; i++)
 		cout << this->marks[i] << "  ";
 }
