@@ -125,20 +125,19 @@ void WorkFile(char * fFile, char * sFile, char * tFile, int fSize, int sSize, in
 	int* pointerS = new int[n * m];
 	int bufSize = sizeof(int) * n * m;
 
-	for (int i = 0; i < fSize && i < sSize; i += 2)
+	for (int i = 0; i + 1 < fSize && i + 1 < sSize; i += 2)
 	{
-		streamF.seekp(bufSize);
+		streamF.seekp(bufSize, ios_base::cur);
+		streamF.read((char*)pointerF, bufSize);
+		streamS.read((char*)pointerS, bufSize);
 
-		streamF.read((char*)&pointerF, bufSize);
-		streamS.read((char*)&pointerS, bufSize);
+		streamF.seekp(-bufSize, ios_base::cur);
+		streamS.seekp(-bufSize, ios_base::cur);
 
-		streamF.seekp(-bufSize);
-		streamS.seekp(-bufSize);
+		streamF.write((char*)pointerS, bufSize);
+		streamS.write((char*)pointerF, bufSize);
 
-		streamF.write((char*)&pointerS, bufSize);
-		streamS.write((char*)&pointerF, bufSize);
-
-		streamS.seekp(bufSize);
+		streamS.seekp(bufSize, ios_base::cur);
 	}
 
 	streamF.close();
