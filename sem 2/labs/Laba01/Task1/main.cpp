@@ -26,11 +26,13 @@ int main()
 
 	while (true)
 	{
+
 		system("cls");
 		int key = Menu();
 		if (key == 0)
 			return 0;
 		system("cls");
+
 		switch (key)
 		{
 		case 1:
@@ -162,7 +164,7 @@ void DisplayWordPages(Word * words,int count)
 
 	cout << endl << "Enter the word of the page you want to find: ";
 	char* word = new char[STRING_SIZE];
-	cin.ignore(1);
+	cin.ignore();
 	cin.getline(word, STRING_SIZE);
 
 	for (int i = 0; i < count; i++)

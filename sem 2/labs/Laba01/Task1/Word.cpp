@@ -8,21 +8,13 @@ Word::Word()
 	this->wordPages = new int[0];
 }
 
-Word::Word(char* word, int pagesCount, int* wordPages)
-{
-	this->SetWord(word);
-	this->SetPagesCount(pagesCount);
-	this->SetWordPages(wordPages);
-}
-
-
 Word::~Word()
 {
 }
 
 void Word::EnterWord()
 {
-	cin.ignore(1);
+	cin.ignore();
 	cout << "Enter word: ";
 	cin.getline(this->word, STRING_SIZE);
 

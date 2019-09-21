@@ -8,7 +8,6 @@ class Word
 public:
 	Word();
 	~Word();
-	Word(char*, int, int*);
 
 	void EnterWord();
 
