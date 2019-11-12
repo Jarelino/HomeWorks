@@ -1,5 +1,14 @@
 #include "Matrix.h"
 
+Matrix & Matrix::operator=(Matrix obj)
+{
+	this->SetRows(obj.GetRows());
+	this->SetColumns(obj.GetColumns());
+	this->SetMatrix(obj.GetMatrix());
+
+	return *this;
+}
+
 Matrix::Matrix()
 {
 }
@@ -20,29 +29,40 @@ Matrix::Matrix(int ** matrix, int n, int m)
 }
 
 
-Matrix::Matrix(Matrix& newObj)
+Matrix::Matrix(const Matrix& newObj)
 {
 	this->SetColumns(newObj.GetColumns());
 	this->SetRows(newObj.GetRows());
 	this->SetMatrix(newObj.GetMatrix());
 }
 
-int Matrix::GetRows()
+int Matrix::GetRows() const
 {
 	return this->rows;
 }
 
-int Matrix::GetColumns()
+int Matrix::GetColumns() const
 {
 	return this->columns;
 }
 
-int** Matrix::GetMatrix()
+void Matrix::MultiplyBy(int numb)
+{
+	for (int i = 0; i < this->GetRows(); i++)
+	{
+		for (int j = 0; j < this->GetColumns(); j++)
+		{
+			this->matrix[i][j] = this->matrix[i][j] * numb;
+		}
+	}
+}
+
+int** Matrix::GetMatrix() const
 {
 	return this->matrix;
 }
 
-Matrix& Matrix::GetMinor(int n, int m)
+Matrix Matrix::GetMinor(int n, int m)
 {
 	int** result = this->AllocateMemory(this->GetRows() - 1, this->GetColumns() - 1);
 
@@ -58,7 +78,16 @@ Matrix& Matrix::GetMinor(int n, int m)
 	}
 
 	Matrix obj(result, this->GetRows() - 1, this->GetColumns() - 1);
+	delete[] result;
+
 	return obj;
+}
+
+void Matrix::Enter(int ** matrix, int rows, int columns)
+{
+	this->SetRows(rows);
+	this->SetColumns(columns);
+	this->SetMatrix(matrix);
 }
 
 void Matrix::Display()
@@ -71,10 +100,12 @@ void Matrix::Display()
 		{
 			cout << " " << this->GetMatrix()[i][j] << " ";
 		}
-	}
 
+		cout << endl;
+	}
 	cout << endl;
 }
+
 
 void Matrix::DisplayMinor(int n, int m)
 {
@@ -94,7 +125,7 @@ void Matrix::DisplayMinor(int n, int m)
 	cout << endl;
 }
 
-void Matrix::FillWith(int numb)
+Matrix& Matrix::FillWith(int numb)
 {
 	for (int i = 0; i < this->GetRows(); i++)
 	{
@@ -103,6 +134,8 @@ void Matrix::FillWith(int numb)
 			this->GetMatrix()[i][j] = numb;
 		}
 	}
+
+	return *this;
 }
 
 
@@ -113,7 +146,6 @@ Matrix::~Matrix()
 int ** Matrix::AllocateMemory(int n, int m)
 {
 	int** result = new int*[n];
-
 	for (int i = 0; i < n; i++)
 	{
 		result[i] = new int[m];
@@ -133,7 +165,8 @@ void Matrix::SetColumns(int newColumn)
 
 void Matrix::SetMatrix(int ** newMatrix)
 {
-	this->matrix = AllocateMemory(this->GetRows(), this->GetColumns());
+	this->matrix = this->AllocateMemory(this->GetRows(), this->GetColumns());
+
 	for (int i = 0; i < this->GetRows(); i++)
 	{
 		for (int j = 0; j < this->GetColumns(); j++)
@@ -143,8 +176,9 @@ void Matrix::SetMatrix(int ** newMatrix)
 	}
 }
 
-Matrix operator+(Matrix & firstMatrix, Matrix & secondMatrix)
+Matrix operator+(Matrix firstMatrix, Matrix secondMatrix)
 {
+
 	int** result = firstMatrix.AllocateMemory(firstMatrix.GetRows(), firstMatrix.GetColumns());
 
 	for (int i = 0; i < firstMatrix.GetRows(); i++)
@@ -154,8 +188,25 @@ Matrix operator+(Matrix & firstMatrix, Matrix & secondMatrix)
 			result[i][j] = firstMatrix.GetMatrix()[i][j] + secondMatrix.GetMatrix()[i][j];
 		}
 	}
+	Matrix obj(result, firstMatrix.GetRows(), firstMatrix.GetColumns());
+	delete[] result;
+	return obj;
+}
+
+Matrix operator*(Matrix & firstMatrix, Matrix & secondMatrix)
+{
+	int** result = firstMatrix.AllocateMemory(firstMatrix.GetRows(), firstMatrix.GetColumns());
+
+	for (int i = 0; i < firstMatrix.GetRows(); i++)
+	{
+		for (int j = 0; j < secondMatrix.GetColumns(); j++)
+		{
+			result[i][j] = firstMatrix.GetMatrix()[i][j] - secondMatrix.GetMatrix()[j][i];
+		}
+	}
 
 	Matrix obj(result, firstMatrix.GetRows(), firstMatrix.GetColumns());
+	delete[] result;
 	return obj;
 }
 
@@ -172,22 +223,7 @@ Matrix operator-(Matrix & firstMatrix, Matrix & secondMatrix)
 	}
 
 	Matrix obj(result, firstMatrix.GetRows(), firstMatrix.GetColumns());
-	return obj;
-}
-
-Matrix operator*(Matrix & firstMatrix, Matrix & secondMatrix)
-{
-	int** result = firstMatrix.AllocateMemory(firstMatrix.GetRows(), firstMatrix.GetColumns());
-
-	for (int i = 0; i < firstMatrix.GetRows(); i++)
-	{
-		for (int j = 0; j < firstMatrix.GetColumns(); j++)
-		{
-			result[i][j] = firstMatrix.GetMatrix()[i][j] * secondMatrix.GetMatrix()[i][j];
-		}
-	}
-
-	Matrix obj(result, firstMatrix.GetRows(), firstMatrix.GetColumns());
+	delete[] result;
 	return obj;
 }
 
