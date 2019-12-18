@@ -1,0 +1,6 @@
+﻿  Main.cpp
+  Matrix.cpp
+  Generating Code...
+C:\Homeworks\sem_2\labs\Laba04\task\Matrix.cpp(1,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+Main.obj : error LNK2019: unresolved external symbol "private: float * * __thiscall Matrix<float>::AllocateMemory(int,int)" (?AllocateMemory@?$Matrix@M@@AAEPAPAMHH@Z) referenced in function "public: __thiscall Matrix<float>::Matrix<float>(class Matrix<float> &)" (??0?$Matrix@M@@QAE@AAV0@@Z)
+C:\Homeworks\sem_2\labs\Laba04\Debug\task.exe : fatal error LNK1120: 1 unresolved externals

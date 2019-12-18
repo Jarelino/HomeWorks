@@ -11,6 +11,26 @@ BinaryTree::BinaryTree()
 	this->root = new tree();
 }
 
+BinaryTree::BinaryTree(double* arr, int size)
+{
+	this->root = new tree();
+
+	for (int i = 0; i < size; i++)
+	{
+		this->AddItem(arr[i]);
+	}
+}
+
+BinaryTree::BinaryTree(vector<double>& arr)
+{
+	this->root = new tree();
+
+	for (int i = 0; i < arr.size(); i++)
+	{
+		this->AddItem(arr[i]);
+	}
+}
+
 void BinaryTree::AddItem(double numb)
 {
 	AddNode(numb, this->root);
